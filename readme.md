@@ -1,22 +1,82 @@
-# ZMK Config for Charybdis 4x6 (Nice!Nano Dongle + Round GC9A01 Display)
+# ZMK Config — Charybdis 4×6 (dongle + GC9A01)
 
-Custom ZMK firmware configuration (Zephyr 4.1) for the **Charybdis 4x6** wireless split keyboard using a Nice!Nano v2 dongle and a round GC9A01 IPS display, based heavily on the original repository [choovick/zmk-config-charybdis](https://github.com).
+Wireless ZMK config for **Charybdis 4×6** with PMW3610 trackball, nRF52840 (Nice!Nano / clones) and a USB dongle with a round **GC9A01 240×240** display.
 
-## Hardware & Pinout
-* **Left/Right Halves & Dongle**: Nice!Nano v2 controllers (with trackball on the right half and a central USB dongle with ZMK Studio enabled).
-* **Display**: Round 1.28" GC9A01 IPS LCD (240×240, SPI) wired to the Nice!Nano: SCL/SCK (15), SDA/MOSI (16), CS (10), DC (9), RES (8), VCC (3V3), GND, and BLK (3V3).
+Based on [choovick/zmk-config-charybdis](https://github.com/choovick/zmk-config-charybdis).
 
-## Dongle Screen Features
-* **Arcs**: Real-time battery levels for both halves (turns red below 20%), with a swap option (`CONFIG_DONGLE_ROUND_SCREEN_SWAP_SIDES=y`) if sides appear inverted.
-* **Status**: Active layer name/index in the center, a `CAPS` indicator pill at the top, and exact battery percentages (`L` / `R`) at the bottom.
+---
 
-## Firmware & Flashing
-Download `firmware.zip` from GitHub Actions containing four `.uf2` files (`charybdis_left`, `dongle_charybdis_right`, `dongle_nice_round dongle_screen`, and `settings_reset`). 
+## Hardware
 
-1. **Reset**: Double-tap `Reset` (or short `RST` + `GND`) and flash `settings_reset-nice_nano-zmk.uf2` to all three controllers.
-2. **Flash**: Upload the dongle firmware to the dongle (kept plugged into the PC), then the left half (pair first so `L` maps correctly), and finally the right half.
+| Role | Board | Notes |
+|------|-------|--------|
+| Left half | Nice!Nano / nRF52840 clone | Peripheral |
+| Right half | Nice!Nano / nRF52840 clone | Peripheral + PMW3610 |
+| Dongle | Nice!Nano / nRF52840 clone | Central, USB, GC9A01 |
+
+### GC9A01 → dongle pinout
+
+| Display | Controller (pro_micro) |
+|---------|------------------------|
+| SCL / SCK | 15 |
+| SDA / MOSI | 16 |
+| CS | 10 |
+| DC | 9 |
+| RES | 8 |
+| VCC | 3V3 |
+| GND | GND |
+| BLK | 3V3 (always on) |
+
+---
+
+## Builds (`build.yaml`)
+
+| Artifact | Shield | Purpose |
+|----------|--------|---------|
+| `charybdis_left-…uf2` | `charybdis_left` | Left half |
+| `dongle_charybdis_right-…uf2` | `dongle_charybdis_right` | Right half (to dongle) |
+| `dongle_nice_round dongle_screen-…uf2` | `dongle_nice_round` + `dongle_screen` | Dongle + GC9A01 + Studio |
+| `settings_reset-…uf2` | `settings_reset` | Clear bonds / settings |
+
+---
+
+## Flashing
+
+1. Flash **`settings_reset`** on all three controllers (double-tap Reset / short RST–GND, drop the `.uf2`).
+2. Flash the **dongle** (keep it plugged into the PC).
+3. Flash the **left** half, then the **right** half.  
+   Pair left first so battery side `L` maps correctly.
+
+---
+
+## Bootloader
+
+**Hardware** (any half / dongle):
+
+- Double-tap the **Reset** button, or briefly short **RST** to **GND**.
+
+**From the keymap** (RAISE layer):
+
+- Hold **RAISE** (right thumb — hold on `BSPC`) and press the top-right key on the right half (`&bootloader`).
+
+---
 
 ## ZMK Studio
-Enabled on the dongle build:
-* **Unlock Combo**: Press all three right thumb keys simultaneously (`RET` + `SPACE/SYMBOLS` + `BSPC/RAISE`).
-* **Edit Keymap**: Use [zmk.studio](https://zmk.studio) in your browser or via the desktop app.
+
+Studio is enabled on the **dongle** build.
+
+**Unlock combo** — press all three right thumb keys at once:
+
+| Pos | Base key |
+|-----|----------|
+| 53 | `RET` |
+| 54 | `SPACE` (hold → Symbols) |
+| 55 | `BSPC` (hold → Raise) |
+
+Hold them together → Studio unlocks. Then open [zmk.studio](https://zmk.studio) in the browser or the desktop app and edit the keymap live.
+
+---
+
+## Dongle screen
+
+- Left / right **battery arcs** (red below 20%) + 
