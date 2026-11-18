@@ -1,0 +1,10 @@
+/*
+ * Charybdis left keyboard - RGB underglow variant.
+ * Base shield + WS2812/SK6812 strip (29 LEDs) on spi3 MOSI (P1.13, nice!nano D15).
+ */
+
+#include "charybdis_left.overlay"
+
+#define CHARYBDIS_RGB_CHAIN_LENGTH 29
+#include "charybdis_rgb.dtsi"
+#undef CHARYBDIS_RGB_CHAIN_LENGTH

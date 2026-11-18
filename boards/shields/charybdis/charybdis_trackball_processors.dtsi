@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ * SPDX-License-Identifier: MIT
+ * 
+ * Common trackball input processor configurations for Charybdis keyboard
+ * This file defines the standard processing for snipe, scroll, and move modes
+ * 
+ * Usage: Include this file and define CHARYBDIS_TRACKBALL_LISTENER macro
+ * Example:
+ *   #define CHARYBDIS_TRACKBALL_LISTENER snipe { layers = <SNIPING>; input-processors = <&zip_xy_scaler 1 3>; }; scroll { layers = <SCROLL>; input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>, <&zip_xy_scaler 1 20>, <&zip_xy_to_scroll_mapper>; }; move { layers = <BASE POINTER>; input-processors = <&zip_xy_scaler 7 6>; };
+ */
+
+#include "charybdis_layers.h"
+
+// Automouse: any trackball movement temporarily activates the AUTOMOUSE layer.
+// The layer drops after this many ms without movement, or on the first key
+// press that is not a mouse key (see excluded-positions below).
+#define CHARYBDIS_AUTOMOUSE_TIMEOUT_MS 700
+#include <dt-bindings/zmk/input_transform.h>
+#include <input/processors.dtsi>
+
+// Standard trackball processing configuration
+// Can be used in both standalone (trackball_listener) and dongle mode (input_split_listener)
+#define CHARYBDIS_TRACKBALL_PROCESSORS \
+    snipe { \
+        layers = <SNIPING>; \
+        input-processors = <&zip_xy_scaler 1 3>; \
+    }; \
+    \
+    scroll { \
+        layers = <SCROLL>; \
+        input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>, <&zip_xy_scaler 1 40>, <&zip_xy_to_scroll_mapper>; \
+    }; \
+    \
+    /* gaming layer: no automouse, WASD area must stay untouched */ \
+    gaming { \
+        layers = <GAMING>; \
+        input-processors = <&zip_xy_scaler 3 2>; \
+    }; \
+    \
+    move { \
+        layers = <BASE POINTER>; \
+        input-processors = <&zip_temp_layer AUTOMOUSE CHARYBDIS_AUTOMOUSE_TIMEOUT_MS>, <&zip_xy_scaler 3 2>; \
+    };
+
+// Keys that do not cancel the automouse layer (mouse buttons, sniping, scroll).
+// Positions: 15 mo SNIPING, 16/17 MB4/MB5, 27/28/29 right/left/middle click, 41 mo SCROLL.
+&zip_temp_layer {
+    require-prior-idle-ms = <150>;
+    excluded-positions = <15 16 17 27 28 29 41>;
+};

@@ -1,0 +1,15 @@
+config SHIELD_DONGLE_SCREEN
+	def_bool $(shields_list_contains,dongle_screen)
+
+if SHIELD_DONGLE_SCREEN
+
+config DONGLE_ROUND_SCREEN
+	bool "Enable custom round status screen for ZMK dongle"
+	default y
+	depends on ZMK_DISPLAY
+
+config DONGLE_ROUND_SCREEN_SWAP_SIDES
+	bool "Swap left and right halves on the round dongle screen"
+	default n
+
+endif
