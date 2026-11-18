@@ -21,7 +21,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/hid_indicators_changed.h>
 /* Event with battery levels of the peripherals: verify the header and
  * struct name against your ZMK revision. */
-#include <zmk/events/peripheral_battery_state_changed.h>
+#include <zmk/events/battery_state_changed.h>
 
 #define COL_BG      0x0B0D10
 #define COL_TRACK   0x232A31
