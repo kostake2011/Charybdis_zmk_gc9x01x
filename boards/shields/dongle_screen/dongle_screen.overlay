@@ -24,7 +24,7 @@
 			compatible = "galaxycore,gc9x01x";
 			status = "okay";
 			reg = <0>;
-			mipi-max-frequency = <32000000>;
+			mipi-max-frequency = <8000000>;
 			mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
 			pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
 			display-inversion;

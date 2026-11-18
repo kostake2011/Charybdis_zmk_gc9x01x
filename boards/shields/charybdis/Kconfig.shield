@@ -1,30 +1,11 @@
 config SHIELD_CHARYBDIS_LEFT
 	def_bool $(shields_list_contains,charybdis_left)
 
-config SHIELD_CHARYBDIS_LEFT_RGB
-	def_bool $(shields_list_contains,charybdis_left_rgb)
-
 config SHIELD_CHARYBDIS_RIGHT_STANDALONE
 	def_bool $(shields_list_contains,charybdis_right_standalone)
-
-config SHIELD_CHARYBDIS_RIGHT_STANDALONE_RGB
-	def_bool $(shields_list_contains,charybdis_right_standalone_rgb)
 
 config SHIELD_DONGLE_CHARYBDIS_RIGHT
 	def_bool $(shields_list_contains,dongle_charybdis_right)
 
-config SHIELD_DONGLE_CHARYBDIS_RIGHT_RGB
-	def_bool $(shields_list_contains,dongle_charybdis_right_rgb)
-
-config SHIELD_DONGLE_PROSPECTOR
-	def_bool $(shields_list_contains,dongle_prospector)
-
-config SHIELD_DONGLE_ZDSE_PROSPECTOR
-	def_bool $(shields_list_contains,dongle_zdse_prospector)
-
-config SHIELD_DONGLE_NICE
-	def_bool $(shields_list_contains,dongle_nice)
-
 config SHIELD_DONGLE_NICE_ROUND
-    def_bool $(shields_list_contains,dongle_nice_round)
-
+	def_bool $(shields_list_contains,dongle_nice_round)

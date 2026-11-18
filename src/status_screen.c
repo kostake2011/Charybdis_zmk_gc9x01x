@@ -199,8 +199,8 @@ lv_obj_t *zmk_display_status_screen(void) {
 
     /* layer name + index */
     ui.layer = make_label(scr, &lv_font_montserrat_40, COL_TEXT, LV_ALIGN_CENTER, 0, -8);
-    lv_obj_set_width(ui.layer, 150);
-    lv_label_set_long_mode(ui.layer, LV_LABEL_LONG_DOT);
+    lv_obj_set_width(ui.layer, 190);
+    lv_label_set_long_mode(ui.layer, LV_LABEL_LONG_MODE_DOTS);
     lv_obj_set_style_text_align(ui.layer, LV_TEXT_ALIGN_CENTER, 0);
     lv_label_set_text(ui.layer, "-");
 
