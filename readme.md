@@ -79,4 +79,11 @@ Hold them together → Studio unlocks. Then open [zmk.studio](https://zmk.studio
 
 ## Dongle screen
 
-- Left / right **battery arcs** (red below 20%) + 
+- Left / right **battery arcs** (red below 20%) + `L xx%` / `R xx%`
+- Centre: active **layer** name (and index)
+- Top: **CAPS** pill when Caps Lock is on
+
+If left/right batteries look swapped, add to `boards/shields/dongle_screen/dongle_screen.conf`:
+
+```conf
+CONFIG_DONGLE_ROUND_SCREEN_SWAP_SIDES=y
