@@ -79,9 +79,11 @@ Hold them together → Studio unlocks. Then open [zmk.studio](https://zmk.studio
 
 ## Dongle screen
 
-- Left / right **battery arcs** (red below 20%) + `L xx%` / `R xx%`
-- Centre: active **layer** name (and index)
-- Top: **CAPS** pill when Caps Lock is on
+- Two quarter **battery arcs** (left / right edge, red below 20%) + `L xx%` / `R xx%`
+- Four **link bars** at the top for each half; a red `X` and `--%` replace them when that half is disconnected
+- Centre: active **layer** name from the keymap; turns into a red `LINK LOST: L / R / L+R` on disconnect
+- Accent colour follows the active layer (table `layer_styles[]` in `src/status_screen.c`, keep it in sync with `charybdis_layers.h`)
+- Bottom: Caps Lock `A`, or a `TRACKBALL` badge on the mouse layers, or the chip logo when idle
 
 If left/right batteries look swapped, add to `boards/shields/dongle_screen/dongle_screen.conf`:
 
