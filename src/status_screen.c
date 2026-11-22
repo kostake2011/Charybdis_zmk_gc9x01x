@@ -33,8 +33,11 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #if __has_include(<zmk/events/peripheral_battery_state_changed.h>)
 #include <zmk/events/peripheral_battery_state_changed.h>
 #endif
-#if __has_include(<zmk/events/split_peripheral_status_changed.h>)
-#include <zmk/events/split_peripheral_status_changed.h>
+/* Connection state of the halves, as seen by the central (dongle). Note that
+ * zmk_split_peripheral_status_changed is the *peripheral-side* event and has
+ * neither `source` nor `slot`, so it is not used here. */
+#if __has_include(<zmk/events/split_central_status_changed.h>)
+#include <zmk/events/split_central_status_changed.h>
 #define HAVE_SPLIT_STATUS 1
 #else
 #define HAVE_SPLIT_STATUS 0
@@ -273,10 +276,8 @@ ZMK_SUBSCRIPTION(widget_caps, zmk_hid_indicators_changed);
 /* connection of the halves */
 #if HAVE_SPLIT_STATUS
 static struct upd_state conn_get_state(const zmk_event_t *eh) {
-    const struct zmk_split_peripheral_status_changed *ev =
-        as_zmk_split_peripheral_status_changed(eh);
+    const struct zmk_split_central_status_changed *ev = as_zmk_split_central_status_changed(eh);
     if (ev != NULL) {
-        /* in ZMK this event identifies the half by `slot`, not `source` */
         int side = side_of(ev->slot);
         if (side >= 0) {
             st.conn[side] = ev->connected;
@@ -286,7 +287,7 @@ static struct upd_state conn_get_state(const zmk_event_t *eh) {
 }
 static void conn_cb(struct upd_state s) { render(); }
 ZMK_DISPLAY_WIDGET_LISTENER(widget_conn, struct upd_state, conn_cb, conn_get_state)
-ZMK_SUBSCRIPTION(widget_conn, zmk_split_peripheral_status_changed);
+ZMK_SUBSCRIPTION(widget_conn, zmk_split_central_status_changed);
 #endif
 
 /* ---------- layout helpers ---------- */
