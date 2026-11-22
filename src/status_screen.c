@@ -276,7 +276,8 @@ static struct upd_state conn_get_state(const zmk_event_t *eh) {
     const struct zmk_split_peripheral_status_changed *ev =
         as_zmk_split_peripheral_status_changed(eh);
     if (ev != NULL) {
-        int side = side_of(ev->source);
+        /* in ZMK this event identifies the half by `slot`, not `source` */
+        int side = side_of(ev->slot);
         if (side >= 0) {
             st.conn[side] = ev->connected;
         }
